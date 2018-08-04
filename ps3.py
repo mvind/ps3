@@ -257,9 +257,11 @@ def is_valid_word(word, hand, word_list):
         for i in word:
             if hand[i] >= dword[i]:
                 #print('check')
-            else:                                    #Means not enough letters in hand for word
-                #print('not enough letters')
+                pass
+            else:
                 return False
+                #print('not enough letters')
+
     except KeyError:
         #print('not enough letters')
         return False
