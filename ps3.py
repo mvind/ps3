@@ -97,8 +97,10 @@ def get_word_score(word, n):
         freq_dict = get_frequency_dict(user_word)
         score_p1 = 0
         #Get the scores for each letter
+        print(freq_dict)
         for key in freq_dict:
-            score_p1+=(SCRABBLE_LETTER_VALUES[key])
+            #print(freq_dict[key])
+            score_p1+=(SCRABBLE_LETTER_VALUES[key])*int(freq_dict[key])
 
         #Get second compenent score
         score_p2 = 1
@@ -108,6 +110,7 @@ def get_word_score(word, n):
         return score_p1*score_p2
     else:
         return 0
+
 # print(get_word_score('apple',3))
 
 #
@@ -183,6 +186,7 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
+    word = word.lower()
     dword = {}
     guess = None
     new_hand = {}
@@ -227,11 +231,11 @@ def update_hand(hand, word):
         #print(new_hand)
         return new_hand
 
-hand = {'t': 2, 'e': 2,'s': 1,'l':1,'a':2}
-print(update_hand(hand,'tesla'))
+# hand = {'t': 2, 'e': 2,'s': 1,'l':1,'a':2}
+# print(update_hand({'e': 1, 'v': 2, 'n': 1, 'i': 1, 'l': 2},'evil'))
 
 
-
+{'e': 0, 'v': 1, 'i': 0, 'l': 1, 'n': 1}
 
 
 
