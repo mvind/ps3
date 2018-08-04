@@ -42,7 +42,7 @@ def load_words():
         wordlist.append(line.strip().lower())
     print("  ", len(wordlist), "words loaded.")
     return wordlist
-
+word_list = load_words()
 def get_frequency_dict(sequence):
     """
     Returns a dictionary where the keys are elements of the sequence
@@ -63,9 +63,6 @@ def get_frequency_dict(sequence):
 # (end of helper code)
 # -----------------------------------
 
-# print(get_frequency_dict('hejmeddig'))
-# Problem #1: Scoring a word
-#
 def get_word_score(word, n):
     """
     Returns the score for a word. Assumes the word is a
@@ -111,11 +108,7 @@ def get_word_score(word, n):
     else:
         return 0
 
-# print(get_word_score('apple',3))
 
-#
-# Make sure you understand how this function works and what it does!
-#
 def display_hand(hand):
     """
     Displays the letters currently in the hand.
@@ -234,23 +227,6 @@ def update_hand(hand, word):
 # hand = {'t': 2, 'e': 2,'s': 1,'l':1,'a':2}
 # print(update_hand({'e': 1, 'v': 2, 'n': 1, 'i': 1, 'l': 2},'evil'))
 
-
-{'e': 0, 'v': 1, 'i': 0, 'l': 1, 'n': 1}
-
-
-
-
-
-
-
-
-
-
-
-
-#
-# Problem #3: Test word validity
-#
 def is_valid_word(word, hand, word_list):
     """
     Returns True if word is in the word_list and is entirely
@@ -262,8 +238,36 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
+    #Check if the word is in word list
+    valid = None
+    word = word.lower()
+    for w in word_list:
+        if word.lower() == w.lower():
+            #print('valid word')
+            valid = True
+            break
 
-    pass  # TO DO... Remove this line when you implement this function
+    if not valid:
+        return False
+
+    #Check hand and word
+    dword = get_frequency_dict(word)
+    print(dword)
+    try:
+        for i in word:
+            if hand[i] >= dword[i]:
+                #print('check')
+            else:                                    #Means not enough letters in hand for word
+                #print('not enough letters')
+                return False
+    except KeyError:
+        #print('not enough letters')
+        return False
+    return True
+
+
+#print(is_valid_word('Rapture',{'r': 1, 'a': 3, 'p': 2, 'e': 1, 't': 1, 'u': 1},word_list))
+
 
 #
 # Problem #5: Playing a hand
