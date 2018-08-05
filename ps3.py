@@ -16,7 +16,7 @@ CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
 
 SCRABBLE_LETTER_VALUES = {
-    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
+    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10, '*':0
 }
 
 # -----------------------------------
@@ -145,10 +145,10 @@ def deal_hand(n):
     returns: dictionary (string -> int)
     """
 
-    hand={}
+    hand={'*':1}
     num_vowels = int(math.ceil(n / 3))
 
-    for i in range(num_vowels):
+    for i in range(num_vowels-1):
         x = random.choice(VOWELS)
         hand[x] = hand.get(x, 0) + 1
 
@@ -158,7 +158,7 @@ def deal_hand(n):
 
     return hand
 
-#
+print(deal_hand(7))
 # Problem #2: Update a hand by removing letters
 #
 def update_hand(hand, word):
@@ -241,16 +241,35 @@ def is_valid_word(word, hand, word_list):
     #Check if the word is in word list
     valid = None
     word = word.lower()
-    for w in word_list:
-        if word.lower() == w.lower():
-            #print('valid word')
-            valid = True
-            break
 
+    #Replace * with vowels and check those words
+    if '*' in word:
+        print('* case')
+        index = word.index('*')
+        temp_word = list(word)
+        for i in VOWELS:
+            #Insert vowel
+            temp_word.pop(index)             #remove *
+            temp_word.insert(index, i)       #insert vowel
+
+            for w in word_list:
+                if ''.join(temp_word) == w.lower():
+                    print('Wildcard word match found')
+                    #word = ''.join(temp_word)
+                    valid = True                       #Right now we just choose one if theres more than one wildcard word matching
+                    break
+
+    else:
+        for w in word_list:
+            if word.lower() == w.lower():
+                valid = True
+                break
+
+    #Check that word is in word list, if not return false.
     if not valid:
         return False
 
-    #Check hand and word
+    #Check hand has enough letters for word
     dword = get_frequency_dict(word)
     print(dword)
     try:
@@ -259,16 +278,16 @@ def is_valid_word(word, hand, word_list):
                 #print('check')
                 pass
             else:
+                #print('not enough letters in hand', i)
                 return False
-                #print('not enough letters')
 
     except KeyError:
-        #print('not enough letters')
+        print('KeyError')
         return False
     return True
 
 
-#print(is_valid_word('Rapture',{'r': 1, 'a': 3, 'p': 2, 'e': 1, 't': 1, 'u': 1},word_list))
+#print(is_valid_word('R*pture',{'r': 2, '*': 3, 'p': 2, 'e': 1, 't': 1, 'u': 1},word_list))
 
 
 #
