@@ -42,7 +42,7 @@ def load_words():
         wordlist.append(line.strip().lower())
     print("  ", len(wordlist), "words loaded.")
     return wordlist
-word_list = load_words()
+
 def get_frequency_dict(sequence):
     """
     Returns a dictionary where the keys are elements of the sequence
@@ -58,7 +58,6 @@ def get_frequency_dict(sequence):
     for x in sequence:
         freq[x] = freq.get(x,0) + 1
     return freq
-
 
 # (end of helper code)
 # -----------------------------------
@@ -127,10 +126,6 @@ def display_hand(hand):
              print(letter, end=' ')      # print all on the same line
     print()                              # print an empty line
 
-#
-# Make sure you understand how this function works and what it does!
-# You will need to modify this for Problem #4.
-#
 def deal_hand(n):
     """
     Returns a random hand containing n lowercase letters.
@@ -158,9 +153,6 @@ def deal_hand(n):
 
     return hand
 
-print(deal_hand(7))
-# Problem #2: Update a hand by removing letters
-#
 def update_hand(hand, word):
     """
     Does NOT assume that hand contains every letter in word at least as
@@ -244,7 +236,7 @@ def is_valid_word(word, hand, word_list):
 
     #Replace * with vowels and check those words
     if '*' in word:
-        print('* case')
+        #print('* case')
         index = word.index('*')
         temp_word = list(word)
         for i in VOWELS:
@@ -254,7 +246,7 @@ def is_valid_word(word, hand, word_list):
 
             for w in word_list:
                 if ''.join(temp_word) == w.lower():
-                    print('Wildcard word match found')
+                    #print('Wildcard word match found')
                     #word = ''.join(temp_word)
                     valid = True                       #Right now we just choose one if theres more than one wildcard word matching
                     break
@@ -271,7 +263,7 @@ def is_valid_word(word, hand, word_list):
 
     #Check hand has enough letters for word
     dword = get_frequency_dict(word)
-    print(dword)
+    #print(dword)
     try:
         for i in word:
             if hand[i] >= dword[i]:
@@ -286,13 +278,8 @@ def is_valid_word(word, hand, word_list):
         return False
     return True
 
-
 #print(is_valid_word('R*pture',{'r': 2, '*': 3, 'p': 2, 'e': 1, 't': 1, 'u': 1},word_list))
 
-
-#
-# Problem #5: Playing a hand
-#
 def calculate_handlen(hand):
     """
     Returns the length (number of letters) in the current hand.
@@ -300,8 +287,8 @@ def calculate_handlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-
-    pass  # TO DO... Remove this line when you implement this function
+    val = list(hand.values())
+    return sum(val)
 
 def play_hand(hand, word_list):
 
@@ -365,7 +352,6 @@ def play_hand(hand, word_list):
     # so tell user the total score
 
     # Return the total score as result of function
-
 
 
 #
@@ -433,8 +419,39 @@ def play_game(word_list):
 
     word_list: list of lowercase strings
     """
+    total_score = 0
+    n = 7
+    playing = True
+    hand = deal_hand(n)
 
-    print("play_game not implemented.") # TO DO... Remove this line when you implement this function
+    print('\n \n')
+
+
+    while playing:
+        if calculate_handlen(hand) == 0:
+            print('\n Ran out of letters. Total score: ', total_score)
+            return False
+
+        print('Current hand: ')
+        display_hand(hand)
+        ans = input('Enter word, or "!!" to indicate that you are finished: ')
+
+        if ans == "!!":
+            print('Total score: ', total_score)
+            return False
+
+        #Check if the word is valid
+        if is_valid_word(ans, hand, word_list):
+            score = get_word_score(ans, calculate_handlen(hand))
+            total_score += score
+            print('"'+ans+'"', 'earned: ', score, '. Your total score is: ', total_score)
+            #print(update_hand(hand,ans))
+            hand = update_hand(hand, ans)
+        else:
+            print('"'+ans+'"', 'is not a valid word. Please choose another one.')
+            #print(update_hand(hand,ans))
+            hand = update_hand(hand, ans)
+
 
 
 
