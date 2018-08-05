@@ -328,27 +328,6 @@ def play_hand(hand, word_list):
 #
 
 def substitute_hand(hand, letter):
-    """
-    Allow the user to replace all copies of one letter in the hand (chosen by user)
-    with a new letter chosen from the VOWELS and CONSONANTS at random. The new letter
-    should be different from user's choice, and should not be any of the letters
-    already in the hand.
-
-    If user provide a letter not in the hand, the hand should be the same.
-
-    Has no side effects: does not mutate hand.
-
-    For example:
-        substitute_hand({'h':1, 'e':1, 'l':2, 'o':1}, 'l')
-    might return:
-        {'h':1, 'e':1, 'o':1, 'x':2} -> if the new letter is 'x'
-    The new letter should not be 'h', 'e', 'l', or 'o' since those letters were
-    already in the hand.
-
-    hand: dictionary (string -> int)
-    letter: string
-    returns: dictionary (string -> int)
-    """
 
     new_hand = hand
 
@@ -378,19 +357,6 @@ def substitute_hand(hand, letter):
 
 def play_game(word_list):
     """
-    Allow the user to play a series of hands
-
-    * Asks the user to input a total number of hands
-
-    * Accumulates the score for each hand into a total score for the
-      entire series
-
-    * For each hand, before playing, ask the user if they want to substitute
-      one letter for another. If the user inputs 'yes', prompt them for their
-      desired letter. This can only be done once during the game. Once the
-      substitue option is used, the user should not be asked if they want to
-      substitute letters in the future.
-
     * For each hand, ask the user if they would like to replay the hand.
       If the user inputs 'yes', they will replay the hand and keep
       the better of the two scores for that hand.  This can only be done once
